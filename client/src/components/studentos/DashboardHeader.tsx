@@ -35,6 +35,7 @@ interface DashboardHeaderProps {
   brandName: BrandName;
   lang: LanguageCode;
   onResetAllData: () => void;
+  onOpenTutorial?: () => void;
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
@@ -45,7 +46,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   userProfile,
   brandName,
   lang,
-  onResetAllData
+  onResetAllData,
+  onOpenTutorial
 }) => {
   const isDark = theme === 'dark';
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -186,6 +188,16 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   <Sparkles className="w-3.5 h-3.5" />
                   {brandName} — {t.allToolsTitle}
                 </div>
+
+                {onOpenTutorial && (
+                  <button
+                    onClick={onOpenTutorial}
+                    className="px-3 py-1 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20 flex items-center gap-1 transition-colors"
+                    title="View App Interactive Guide & Tutorial"
+                  >
+                    📖 {t.guideTutorial}
+                  </button>
+                )}
 
                 <button
                   onClick={onResetAllData}

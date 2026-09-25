@@ -58,56 +58,168 @@ export const AIChatAssistant: React.FC<AIChatAssistantProps> = ({ theme }) => {
     if (!textToSend) setInputText('');
     setIsTyping(true);
 
-    // AI Response Simulator
+    // AI Response Generator
     setTimeout(() => {
-      let aiText = '';
+      const generateAIResponse = (rawQuery: string): string => {
+        const q = rawQuery.toLowerCase().trim();
 
-      if (query.toLowerCase().includes('recursion')) {
-        aiText = `💡 **Recursion Explained Simply**:
+        // 1. Data Structures & Algorithms
+        if (q.includes('recursion') || q.includes('recursive')) {
+          return `💡 **Recursion Explained Simply**:
 
-Recursion is when a function calls itself to break down a big problem into smaller pieces until it reaches a **base case**.
+Recursion is a programming technique where a function calls itself to solve smaller instances of the same problem until reaching a **base case**.
 
 📁 **Real Life Analogy: Russian Nesting Dolls**
 Opening a doll inside another doll until you reach the smallest solid doll (the base case), then assembling them back!
 
 \`\`\`javascript
+// Factorial Example in JavaScript
 function factorial(n) {
-  if (n === 1) return 1; // Base case!
-  return n * factorial(n - 1); // Recursive step
+  if (n <= 1) return 1; // 🛑 Base Case
+  return n * factorial(n - 1); // 🔄 Recursive Call
 }
 console.log(factorial(5)); // Output: 120
 \`\`\`
-Key takeaway: Always define a **Base Case** to prevent infinite loops!`;
-      } else if (query.toLowerCase().includes('resume')) {
-        aiText = `📄 **1st Year Tech Resume Checklist**:
 
-1. **Header**: Name, Email, Phone, GitHub link, LinkedIn link.
-2. **Education**: Degree name, College name, Plus Two % & Year.
-3. **Technical Skills**: HTML, CSS, JavaScript, C/C++, Git & GitHub.
-4. **Projects** (Most Important!):
-   • *StudentOS Web App*: Built using React & Tailwind CSS.
-   • *Attendance Portal*: Built with Node.js & Prisma DB.
-5. **Certifications & Achievements**: HackerRank/LeetCode problem count, Hackathon participant.`;
-      } else if (query.toLowerCase().includes('project')) {
-        aiText = `🚀 **Top 5 Portfolio Projects for Students**:
+⚡ **Key Rules of Recursion**:
+1. Must have at least one **Base Case** to stop execution.
+2. Must move towards the base case with every call to avoid stack overflow crashes.`;
+        }
 
-1. **StudentOS / Student AI Toolbox** (All-in-One Dashboard & Mini-Tools)
-2. **Smart College Attendance & Leave Management App**
-3. **AI Study Notes Summarizer & Flashcard Generator**
-4. **Student Expense & Hostel Budget Tracker**
-5. **College Campus Event Booking & Notice Board Portal**`;
-      } else {
-        aiText = `🤖 **StudentOS AI Response**:
+        if (q.includes('array') || q.includes('linked list') || q.includes('stack') || q.includes('queue') || q.includes('tree') || q.includes('graph') || q.includes('hash') || q.includes('dsa') || q.includes('sorting')) {
+          return `⚡ **Data Structures & Algorithms (DSA) Guide**:
 
-Thank you for your question: *"${query}"*!
+1. **Arrays**: Contiguous memory, instant O(1) lookup by index, O(n) search & insertion.
+2. **Linked Lists**: Dynamic memory nodes connected by pointers. O(1) insertion at head, O(n) search.
+3. **Stacks (LIFO)**: Last-In-First-Out. Push/Pop operations O(1). Used in function call stacks & undo mechanisms.
+4. **Queues (FIFO)**: First-In-First-Out. Used in task scheduling & BFS graph traversal.
+5. **Hash Maps**: Key-Value pairs with O(1) average lookup time.
+6. **Binary Trees & BST**: Hierarchical tree structures. BST search time is O(log n) when balanced.
 
-Here is a structured student guide:
-1. **Understand Core Concepts**: Break down the topic into 3 main bullet points.
-2. **Practice Hands-On**: Build small exercises or write sample code snippets.
-3. **Revision**: Use the StudentOS Flashcard & Quiz tools to test yourself before exams!
+💡 *Pro Tip*: For technical interviews, practice sorting algorithms (MergeSort, QuickSort) and graph traversals (DFS & BFS)!`;
+        }
 
-Need more details on this specific topic? Feel free to ask follow-up questions!`;
-      }
+        // 2. Languages & Tech: Python, JS, React, C++, Java, SQL
+        if (q.includes('python')) {
+          return `🐍 **Python Essentials & Quick Reference**:
+
+Python is an easy-to-read, high-level language popular for AI, Data Science, and Web Backend.
+
+\`\`\`python
+# Useful Python Snippets
+numbers = [1, 2, 3, 4, 5]
+squared = [x**2 for x in numbers]  # List Comprehension
+print(squared)  # Output: [1, 4, 9, 16, 25]
+
+# Dictionary (Key-Value)
+student = {"name": "Alex", "gpa": 3.8}
+print(f"Student: {student['name']}, GPA: {student['gpa']}")
+\`\`\`
+
+🚀 **Top Python Libraries for Students**: NumPy, Pandas, Matplotlib, Scikit-Learn, and FastAPI!`;
+        }
+
+        if (q.includes('javascript') || q.includes('js') || q.includes('react')) {
+          return `⚡ **Modern JavaScript & React Guide**:
+
+JavaScript powers interactive web applications across browser and server (Node.js).
+
+\`\`\`javascript
+// Modern ES6+ Async/Await Fetch
+const fetchStudentData = async (id) => {
+  try {
+    const res = await fetch(\`/api/student/\${id}\`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching data:", err);
+  }
+};
+\`\`\`
+
+⚛️ **React Core Concepts**:
+• **Components**: Reusable UI blocks.
+• **State (\`useState\`)**: Reactive data that triggers UI updates.
+• **Effects (\`useEffect\`)**: Side-effects like API fetching & timers.`;
+        }
+
+        if (q.includes('sql') || q.includes('database') || q.includes('dbms')) {
+          return `🗄️ **Database & SQL Query Essentials**:
+
+SQL (Structured Query Language) is used to store, query, and manage relational databases like PostgreSQL, MySQL, and SQLite.
+
+\`\`\`sql
+-- Common SQL Operations
+SELECT s.name, s.register_number, c.class_name
+FROM students s
+JOIN classes c ON s.class_id = c.id
+WHERE s.attendance_percentage >= 75.0
+ORDER BY s.name ASC;
+\`\`\`
+
+🔑 **Key Concepts**:
+1. **Primary Key**: Unique identifier for each table row.
+2. **Foreign Key**: Connects tables together via relationships.
+3. **Indexing**: Speeds up database queries significantly on large tables.`;
+        }
+
+        // 3. Resume & Career & Projects
+        if (q.includes('resume') || q.includes('cv') || q.includes('internship') || q.includes('career') || q.includes('job')) {
+          return `📄 **Executive Student Resume Strategy**:
+
+1. **Keep it 1 Single Page**: HR recruiters spend ~6 seconds scanning resumes.
+2. **Impact Bullet Points**: Use Action Verb + Context + Result formula (e.g., *"Built full-stack React app serving 500+ students, reducing registration time by 40%"*).
+3. **Essential Sections**:
+   • Contact Info (Email, Phone, LinkedIn, GitHub)
+   • Education (Degree, College, CGPA, Year)
+   • Key Projects (with live demo links & tech tags)
+   • Technical Skills (Categorized by languages & frameworks)
+   • Work Experience / Internships / Campus roles
+4. **ATS Friendly**: Use standard fonts and clean formatting (our built-in Resume Builder generates ATS-ready A4 PDFs!).`;
+        }
+
+        if (q.includes('project') || q.includes('ideas') || q.includes('portfolio')) {
+          return `🚀 **Top Student Portfolio Project Ideas**:
+
+1. **Studently / All-in-One Student AI Ecosystem**: Build a suite with GPA calculator, notes summarizer, & countdown timers.
+2. **Smart Attendance & Leave Tracker**: Web portal with WhatsApp parent alerts and monthly reports.
+3. **AI Study Assistant**: Paste notes to generate flashcards and quizzes.
+4. **Expense & Hostel Budget Tracker**: Log daily spending and visualize category charts.
+5. **Real-time Chat App / Campus Notice Board**: Built with WebSockets, Node.js, and React.`;
+        }
+
+        // 4. Exams, Study Habits & GPA
+        if (q.includes('exam') || q.includes('study') || q.includes('gpa') || q.includes('cgpa') || q.includes('marks') || q.includes('test') || q.includes('pass') || q.includes('prepare')) {
+          return `🎓 **High-Scoring Exam & GPA Preparation Blueprint**:
+
+1. **The 80/20 Rule (Pareto Principle)**: 80% of exam marks come from 20% of core concepts & past question papers. Solve previous 3 years' question papers first!
+2. **Active Recall over Passive Reading**: Instead of highlighting notes, test yourself using flashcards or teaching the concept out loud.
+3. **Pomodoro Technique**: 25 minutes of focused study followed by a 5-minute break (use our built-in Study Timer tool!).
+4. **GPA / CGPA Formula**:
+   SGPA = Σ (Credit × Grade Point) / Σ Credits
+5. **Sleep & Consistency**: 7-8 hours of sleep before exam day retains 40% more memory than all-night cramming!`;
+        }
+
+        // 5. Intelligent Fallback Generator for any custom prompt
+        const topicName = rawQuery.replace(/[?./!]/g, '').trim();
+        return `🤖 **Studently AI Guidance on: "${topicName}"**
+
+Here is a structured breakdown for **${topicName}**:
+
+1. **Core Concept Overview**:
+   • Focus on understanding foundational principles before diving into advanced topics.
+   • Break down complex problems into smaller, manageable sub-tasks.
+
+2. **Key Action Steps**:
+   • **Step 1**: Review authoritative documentation or standard textbook references.
+   • **Step 2**: Practice hands-on exercises or write sample code/notes.
+   • **Step 3**: Utilize Studently's Study Tools (GPA Calculator, Timetable, AI Assistant) to structure your daily routine.
+
+3. **Pro Recommendation**:
+   If you have a specific code snippet, formula, or exam question regarding *"${topicName}"*, paste it directly here and I will generate a step-by-step resolution for you!`;
+      };
+
+      const aiText = generateAIResponse(query);
 
       const aiMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -118,7 +230,7 @@ Need more details on this specific topic? Feel free to ask follow-up questions!`
 
       setMessages(prev => [...prev, aiMsg]);
       setIsTyping(false);
-    }, 700);
+    }, 500);
   };
 
   const handleCopy = (id: string, text: string) => {

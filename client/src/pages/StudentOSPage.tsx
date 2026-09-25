@@ -77,10 +77,11 @@ export const StudentOSPage: React.FC = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
-  // Auto prompt Auth modal if user is not logged in on initial open
+  // Auto prompt Auth modal and App Tutorial Guide modal on starting page open
   useEffect(() => {
     if (!userProfile.isLoggedIn) {
       setIsAuthModalOpen(true);
+      setIsTutorialOpen(true);
     }
   }, []);
 
@@ -304,6 +305,7 @@ export const StudentOSPage: React.FC = () => {
             brandName={brandName}
             lang={lang}
             onResetAllData={handleResetAllData}
+            onOpenTutorial={() => setIsTutorialOpen(true)}
           />
         )}
 
