@@ -100,10 +100,16 @@ export const StudentOSPage: React.FC = () => {
 
   useEffect(() => {
     setStoredTheme(theme);
+    const rootEl = document.documentElement;
+    const bodyEl = document.body;
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
+      rootEl.classList.add('dark');
+      rootEl.style.backgroundColor = '#020617';
+      bodyEl.style.backgroundColor = '#020617';
     } else {
-      document.documentElement.classList.remove('dark');
+      rootEl.classList.remove('dark');
+      rootEl.style.backgroundColor = '#f8fafc';
+      bodyEl.style.backgroundColor = '#f8fafc';
     }
   }, [theme]);
 
@@ -251,7 +257,7 @@ export const StudentOSPage: React.FC = () => {
   return (
     <div 
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`min-h-screen font-sans transition-colors duration-300 ${
+      className={`min-h-screen w-full max-w-full overflow-x-hidden font-sans transition-colors duration-300 ${
         isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
       }`}
     >
