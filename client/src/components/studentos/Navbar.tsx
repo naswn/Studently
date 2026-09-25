@@ -14,9 +14,10 @@ import {
   Bot, 
   PenTool, 
   Home,
-  User,
-  LogIn,
-  UserCheck
+  Calculator,
+  Timer,
+  Calendar,
+  LogIn
 } from 'lucide-react';
 import { BrandName, ThemeMode, UserProfile } from '../../types/studentos';
 
@@ -60,6 +61,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const tabs = [
     { id: 'dashboard', label: 'Home', icon: Home },
+    { id: 'gpa-calc', label: 'GPA Calc', icon: Calculator },
+    { id: 'exam-countdown', label: 'Deadlines', icon: Timer },
+    { id: 'class-timetable', label: 'Timetable', icon: Calendar },
+    { id: 'resume-builder', label: 'Resume CV', icon: FileText },
     { id: 'course-finder', label: 'Course Finder', icon: GraduationCap },
     { id: 'money-tracker', label: 'Money Tracker', icon: DollarSign },
     { id: 'study-assistant', label: 'Study Assistant', icon: BookOpen },
@@ -132,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className={`hidden sm:inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${
               isDark ? 'bg-emerald-950/40 border-emerald-800/40 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
             }`}>
-              v3.0 Student OS
+              v3.5 All-in-One
             </span>
           </div>
 

@@ -11,13 +11,24 @@ import { AIChatAssistant } from '../components/studentos/AIChatAssistant';
 import { CaptionGenerator } from '../components/studentos/CaptionGenerator';
 import { AuthModal } from '../components/studentos/AuthModal';
 
+// NEW 4 TOOLS
+import { GPACalculator } from '../components/studentos/GPACalculator';
+import { ExamCountdown } from '../components/studentos/ExamCountdown';
+import { ClassTimetable } from '../components/studentos/ClassTimetable';
+import { ResumeBuilder } from '../components/studentos/ResumeBuilder';
+
 import { 
   BrandName, 
   ThemeMode, 
   StudentStats, 
   ExpenseItem, 
   SavingsGoal,
-  UserProfile
+  UserProfile,
+  SubjectGrade,
+  ExamDeadline,
+  TimetableSlot,
+  SubjectAttendance,
+  StudentResume
 } from '../types/studentos';
 
 import {
@@ -34,7 +45,17 @@ import {
   getCompletedRoadmapNodes,
   saveCompletedRoadmapNodes,
   getStoredUserProfile,
-  saveStoredUserProfile
+  saveStoredUserProfile,
+  getStoredGrades,
+  saveStoredGrades,
+  getStoredDeadlines,
+  saveStoredDeadlines,
+  getStoredTimetable,
+  saveStoredTimetable,
+  getStoredAttendance,
+  saveStoredAttendance,
+  getStoredResume,
+  saveStoredResume
 } from '../utils/studentosStorage';
 
 export const StudentOSPage: React.FC = () => {
@@ -49,11 +70,18 @@ export const StudentOSPage: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  // Student State
+  // Core Student State
   const [stats, setStats] = useState<StudentStats>(getStoredStats);
   const [expenses, setExpenses] = useState<ExpenseItem[]>(getStoredExpenses);
   const [savings, setSavings] = useState<SavingsGoal>(getStoredSavings);
   const [completedRoadmapNodes, setCompletedRoadmapNodes] = useState<string[]>(getCompletedRoadmapNodes);
+
+  // New Tools State
+  const [grades, setGrades] = useState<SubjectGrade[]>(getStoredGrades);
+  const [deadlines, setDeadlines] = useState<ExamDeadline[]>(getStoredDeadlines);
+  const [timetable, setTimetable] = useState<TimetableSlot[]>(getStoredTimetable);
+  const [attendance, setAttendance] = useState<SubjectAttendance[]>(getStoredAttendance);
+  const [resume, setResume] = useState<StudentResume>(getStoredResume);
 
   // Sync theme class to document body root
   useEffect(() => {
@@ -79,7 +107,7 @@ export const StudentOSPage: React.FC = () => {
     saveStoredUserProfile(newProfile);
   };
 
-  // Streak check-in logic (Increments dynamic study streak counter)
+  // Streak check-in logic
   const todayStr = new Date().toISOString().split('T')[0];
   const hasCheckedInToday = stats.lastStreakDate === todayStr;
 
@@ -95,19 +123,14 @@ export const StudentOSPage: React.FC = () => {
     }
   };
 
-  // Stats updates
   const handleUpdateStats = (newStats: Partial<StudentStats>) => {
     const updated = { ...stats, ...newStats };
     setStats(updated);
     saveStoredStats(updated);
   };
 
-  // Expense handlers
   const handleAddExpense = (item: Omit<ExpenseItem, 'id'>) => {
-    const newExpense: ExpenseItem = {
-      ...item,
-      id: Date.now().toString()
-    };
+    const newExpense: ExpenseItem = { ...item, id: Date.now().toString() };
     const updatedList = [newExpense, ...expenses];
     setExpenses(updatedList);
     saveStoredExpenses(updatedList);
@@ -119,19 +142,15 @@ export const StudentOSPage: React.FC = () => {
     saveStoredExpenses(updatedList);
   };
 
-  // Savings updates
   const handleUpdateSavings = (newSavings: Partial<SavingsGoal>) => {
     const updated = { ...savings, ...newSavings };
     setSavings(updated);
     saveStoredSavings(updated);
-
-    // Sync savings display on main dashboard stats
     if (newSavings.currentSaved !== undefined) {
       handleUpdateStats({ savings: newSavings.currentSaved });
     }
   };
 
-  // Career Roadmap node toggle handler
   const handleToggleRoadmapNode = (nodeId: string) => {
     let updatedNodes: string[];
     if (completedRoadmapNodes.includes(nodeId)) {
@@ -141,9 +160,72 @@ export const StudentOSPage: React.FC = () => {
     }
     setCompletedRoadmapNodes(updatedNodes);
     saveCompletedRoadmapNodes(updatedNodes);
-
-    // Sync skillsCompleted metric on main dashboard
     handleUpdateStats({ skillsCompleted: updatedNodes.length });
+  };
+
+  // NEW TOOLS HANDLERS
+
+  // GPA
+  const handleAddGrade = (grade: Omit<SubjectGrade, 'id'>) => {
+    const newGrade: SubjectGrade = { ...grade, id: Date.now().toString() };
+    const updated = [...grades, newGrade];
+    setGrades(updated);
+    saveStoredGrades(updated);
+  };
+
+  const handleDeleteGrade = (id: string) => {
+    const updated = grades.filter(g => g.id !== id);
+    setGrades(updated);
+    saveStoredGrades(updated);
+  };
+
+  // Deadlines
+  const handleAddDeadline = (deadline: Omit<ExamDeadline, 'id'>) => {
+    const newDL: ExamDeadline = { ...deadline, id: Date.now().toString() };
+    const updated = [newDL, ...deadlines];
+    setDeadlines(updated);
+    saveStoredDeadlines(updated);
+  };
+
+  const handleDeleteDeadline = (id: string) => {
+    const updated = deadlines.filter(d => d.id !== id);
+    setDeadlines(updated);
+    saveStoredDeadlines(updated);
+  };
+
+  // Timetable & Attendance
+  const handleAddTimetableSlot = (slot: Omit<TimetableSlot, 'id'>) => {
+    const newSlot: TimetableSlot = { ...slot, id: Date.now().toString() };
+    const updated = [...timetable, newSlot];
+    setTimetable(updated);
+    saveStoredTimetable(updated);
+  };
+
+  const handleDeleteTimetableSlot = (id: string) => {
+    const updated = timetable.filter(t => t.id !== id);
+    setTimetable(updated);
+    saveStoredTimetable(updated);
+  };
+
+  const handleUpdateAttendance = (subjectName: string, deltaAttended: number, deltaTotal: number) => {
+    const updated = attendance.map(att => {
+      if (att.subject === subjectName) {
+        return {
+          ...att,
+          attended: att.attended + deltaAttended,
+          totalClasses: att.totalClasses + deltaTotal
+        };
+      }
+      return att;
+    });
+    setAttendance(updated);
+    saveStoredAttendance(updated);
+  };
+
+  // Resume
+  const handleUpdateResume = (newResume: StudentResume) => {
+    setResume(newResume);
+    saveStoredResume(newResume);
   };
 
   const isDark = theme === 'dark';
@@ -179,6 +261,43 @@ export const StudentOSPage: React.FC = () => {
             onSelectTab={setActiveTab}
             userProfile={userProfile}
             brandName={brandName}
+          />
+        )}
+
+        {activeTab === 'gpa-calc' && (
+          <GPACalculator
+            grades={grades}
+            onAddGrade={handleAddGrade}
+            onDeleteGrade={handleDeleteGrade}
+            theme={theme}
+          />
+        )}
+
+        {activeTab === 'exam-countdown' && (
+          <ExamCountdown
+            deadlines={deadlines}
+            onAddDeadline={handleAddDeadline}
+            onDeleteDeadline={handleDeleteDeadline}
+            theme={theme}
+          />
+        )}
+
+        {activeTab === 'class-timetable' && (
+          <ClassTimetable
+            timetable={timetable}
+            attendance={attendance}
+            onAddSlot={handleAddTimetableSlot}
+            onDeleteSlot={handleDeleteTimetableSlot}
+            onUpdateAttendance={handleUpdateAttendance}
+            theme={theme}
+          />
+        )}
+
+        {activeTab === 'resume-builder' && (
+          <ResumeBuilder
+            resume={resume}
+            onUpdateResume={handleUpdateResume}
+            theme={theme}
           />
         )}
 

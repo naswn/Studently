@@ -105,3 +105,63 @@ export interface ChatMessage {
   text: string;
   timestamp: string;
 }
+
+// --- NEW TOOLS INTERFACES ---
+
+// 1. GPA Calculator
+export interface SubjectGrade {
+  id: string;
+  code: string;
+  name: string;
+  credits: number;
+  gradePoint: number; // e.g., 10 for O, 9 for A+, 8 for A, 7 for B+, 6 for B, 5 for C, 0 for F
+  gradeLetter: string;
+}
+
+export interface SemesterGPA {
+  semester: number;
+  subjects: SubjectGrade[];
+}
+
+// 2. Exam Countdown
+export interface ExamDeadline {
+  id: string;
+  title: string;
+  subject: string;
+  dueDate: string; // ISO date string YYYY-MM-DDTHH:mm
+  priority: 'High' | 'Medium' | 'Low';
+  category: 'Exam' | 'Project Assignment' | 'Lab Viva' | 'Quiz';
+}
+
+// 3. Class Timetable & Attendance Log
+export interface TimetableSlot {
+  id: string;
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday';
+  timeSlot: string; // e.g., "09:00 AM - 10:00 AM"
+  subject: string;
+  room: string;
+  teacher: string;
+}
+
+export interface SubjectAttendance {
+  subject: string;
+  attended: number;
+  totalClasses: number;
+}
+
+// 4. Student Resume Builder
+export interface StudentResume {
+  fullName: string;
+  email: string;
+  phone: string;
+  github: string;
+  linkedin: string;
+  summary: string;
+  degree: string;
+  college: string;
+  graduationYear: string;
+  cgpa: string;
+  skills: string[];
+  projects: { title: string; description: string; tech: string }[];
+  certifications: string[];
+}

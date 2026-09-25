@@ -16,7 +16,9 @@ import {
   Compass,
   Bot,
   PenTool,
-  UserCheck,
+  Calculator,
+  Timer,
+  Calendar,
   Plus,
   Minus
 } from 'lucide-react';
@@ -42,7 +44,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const isDark = theme === 'dark';
   const [isEditingGoal, setIsEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState(stats.careerGoal);
-  const [isAdjustingStreak, setIsAdjustingStreak] = useState(false);
 
   const handleSaveGoal = () => {
     if (goalInput.trim()) {
@@ -60,19 +61,51 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
   const miniToolsList = [
     {
+      id: 'gpa-calc',
+      title: 'GPA / CGPA Calculator',
+      desc: 'Calculate semester grades, credit points & convert CGPA to percentage',
+      icon: Calculator,
+      gradient: 'from-emerald-500 to-cyan-600',
+      badge: 'Academics'
+    },
+    {
+      id: 'exam-countdown',
+      title: 'Exam Countdown',
+      desc: 'Real-time countdown timer for upcoming exams & project submission deadlines',
+      icon: Timer,
+      gradient: 'from-amber-500 to-rose-600',
+      badge: 'Deadlines'
+    },
+    {
+      id: 'class-timetable',
+      title: 'Class Timetable',
+      desc: 'Weekly class schedule grid & subject-wise 75%+ attendance logger',
+      icon: Calendar,
+      gradient: 'from-cyan-500 to-blue-600',
+      badge: 'Schedule'
+    },
+    {
+      id: 'resume-builder',
+      title: 'Resume CV Builder',
+      desc: 'ATS-friendly student resume builder with live A4 preview & PDF download',
+      icon: FileText,
+      gradient: 'from-blue-500 to-indigo-600',
+      badge: 'Career'
+    },
+    {
       id: 'course-finder',
       title: 'Course Finder',
       desc: 'Discover suitable degree programs & colleges by percentage & budget',
       icon: GraduationCap,
-      gradient: 'from-blue-500 to-indigo-600',
-      badge: 'Academic'
+      gradient: 'from-indigo-500 to-purple-600',
+      badge: 'College'
     },
     {
       id: 'money-tracker',
       title: 'Money Tracker',
       desc: 'Log expenses, track monthly budgets & hit your savings goals',
       icon: DollarSign,
-      gradient: 'from-emerald-500 to-teal-600',
+      gradient: 'from-teal-500 to-emerald-600',
       badge: 'Finance'
     },
     {
@@ -89,14 +122,14 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       desc: 'Match government & private scholarships for your stream',
       icon: Award,
       gradient: 'from-amber-500 to-orange-600',
-      badge: 'Opportunities'
+      badge: 'Grants'
     },
     {
       id: 'doc-tools',
       title: 'Document Tools',
       desc: 'Passport photo creator, image to PDF & A4 format previewer',
       icon: FileText,
-      gradient: 'from-cyan-500 to-blue-600',
+      gradient: 'from-cyan-500 to-teal-600',
       badge: 'Utilities'
     },
     {
@@ -105,7 +138,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       desc: 'Interactive step-by-step career skill tree from BCA/CS to Developer',
       icon: Compass,
       gradient: 'from-violet-500 to-purple-600',
-      badge: 'Career'
+      badge: 'Roadmap'
     },
     {
       id: 'ai-chat',
@@ -133,7 +166,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border-slate-800' 
           : 'bg-gradient-to-br from-white via-emerald-50/40 to-slate-50 border-slate-200'
       }`}>
-        {/* Glow backdrop graphics */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -143,7 +175,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
-                {brandName} — All-in-One StudentOS Command Center
+                {brandName} — All-in-One Student Command Center
               </div>
               <h1 className={`text-2xl sm:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
@@ -155,7 +187,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 )}
               </h1>
               <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Manage your study goals, money, documents, career roadmaps, and scholarships all in one seamless dashboard.
+                Manage your GPA, study goals, timetable, resume, money, documents, and career roadmaps in one seamless ecosystem.
               </p>
             </div>
 
@@ -306,15 +338,15 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </div>
       </div>
 
-      {/* Mini-Tools Quick Launch Section */}
+      {/* Mini-Tools Quick Launch Section (12 Tools) */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              🛠️ {brandName} All-in-One Toolbox
+              🛠️ {brandName} All-in-One Toolbox (12 Mini-Tools)
             </h2>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              Select any mini-tool below to start managing study, money, documents, or career opportunities.
+              Select any mini-tool below to start managing study, GPA, money, documents, or career opportunities.
             </p>
           </div>
         </div>
