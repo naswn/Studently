@@ -150,6 +150,7 @@ export interface StudentResume {
   fullName: string;
   email: string;
   phone: string;
+  location?: string;
   github: string;
   linkedin: string;
   summary: string;
@@ -158,6 +159,8 @@ export interface StudentResume {
   graduationYear: string;
   cgpa: string;
   skills: string[];
-  projects: { title: string; description: string; tech: string }[];
+  projects: { title: string; description: string; tech: string; link?: string }[];
+  experience?: { role: string; company: string; duration: string; description: string }[];
   certifications: string[];
+  template?: 'modern' | 'classic' | 'minimal';
 }

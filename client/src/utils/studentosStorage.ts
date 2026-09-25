@@ -83,18 +83,23 @@ const DEFAULT_RESUME: StudentResume = {
   fullName: 'Your Name',
   email: 'yourname@student.edu',
   phone: '+91 98765 43210',
+  location: 'Kerala, India',
   github: 'github.com/yourusername',
   linkedin: 'linkedin.com/in/yourusername',
-  summary: 'Enthusiastic student & developer passionate about building modern web applications and learning new technologies.',
+  summary: 'Motivated Computer Science student with strong foundations in full-stack web development, data structures, and database management. Proven ability to build modern responsive applications.',
   degree: 'Bachelor of Computer Applications (BCA)',
-  college: 'Your College Name',
+  college: 'Studently Campus',
   graduationYear: '2027',
   cgpa: '9.0 / 10',
-  skills: ['React.js', 'TypeScript', 'JavaScript (ES6+)', 'Tailwind CSS', 'Python', 'Git'],
+  skills: ['React.js', 'TypeScript', 'JavaScript (ES6+)', 'Tailwind CSS', 'Node.js', 'Python', 'SQL', 'Git'],
   projects: [
-    { title: 'Studently — All-in-One Student AI Toolbox', description: 'Built full-featured web app with 12 student mini-tools including GPA calculator, notes summarizer, passport photo maker, and expense tracker.', tech: 'React 18, TypeScript, Tailwind CSS' }
+    { title: 'Studently — All-in-One Student AI Ecosystem', description: 'Engineered a full-stack student productivity suite featuring 12 mini-tools including GPA calculator, ATS resume builder, deadline countdown, and AI study assistant.', tech: 'React 18, TypeScript, Tailwind CSS' }
   ],
-  certifications: ['Web Development Certificate']
+  experience: [
+    { role: 'Web Development Intern', company: 'TechSolutions Inc.', duration: 'Jun 2025 - Aug 2025', description: 'Developed reusable React components and optimized API endpoints, reducing page load latency by 25%.' }
+  ],
+  certifications: ['Full-Stack Web Development Certification (2025)', 'Python Data Structures — Coursera'],
+  template: 'modern'
 };
 
 export const getStoredTheme = (): ThemeMode => {
