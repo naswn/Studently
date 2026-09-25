@@ -6,16 +6,19 @@ import {
   Award, 
   Sparkles, 
   TrendingUp, 
-  CheckCircle2,
+  ArrowLeft,
   Percent
 } from 'lucide-react';
-import { SubjectGrade, ThemeMode } from '../../types/studentos';
+import { SubjectGrade, ThemeMode, LanguageCode } from '../../types/studentos';
+import { TRANSLATIONS } from '../../utils/i18n';
 
 interface GPACalculatorProps {
   grades: SubjectGrade[];
   onAddGrade: (grade: Omit<SubjectGrade, 'id'>) => void;
   onDeleteGrade: (id: string) => void;
   theme: ThemeMode;
+  onBackToHome: () => void;
+  lang: LanguageCode;
 }
 
 const GRADE_LETTER_POINTS: Record<string, number> = {
@@ -32,18 +35,19 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
   grades,
   onAddGrade,
   onDeleteGrade,
-  theme
+  theme,
+  onBackToHome,
+  lang
 }) => {
   const isDark = theme === 'dark';
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
-  // Form State
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [credits, setCredits] = useState('4');
   const [gradeLetter, setGradeLetter] = useState('O (Outstanding)');
   const [formulaMultiplier, setFormulaMultiplier] = useState<number>(9.5);
 
-  // Calculations
   const totalCredits = grades.reduce((acc, curr) => acc + curr.credits, 0);
   const totalPoints = grades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoint), 0);
   const calculatedCGPA = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
@@ -71,6 +75,21 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
   return (
     <div className="space-y-6">
       
+      {/* Universal Back to Dashboard Navigation Button */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={onBackToHome}
+          className={`flex items-center gap-2 px-4 py-2 rounded-2xl border font-bold text-xs transition-all ${
+            isDark 
+              ? 'bg-slate-900 border-slate-800 text-emerald-400 hover:bg-slate-800' 
+              : 'bg-white border-slate-200 text-emerald-600 hover:bg-slate-100 shadow-sm'
+          }`}
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>{t.backToDashboard}</span>
+        </button>
+      </div>
+
       {/* Header Banner */}
       <div className={`p-6 rounded-3xl border ${
         isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
@@ -91,8 +110,6 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
 
         {/* 3 Metric Score Display Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-          
-          {/* Card 1: Calculated CGPA */}
           <div className={`p-5 rounded-2xl border ${
             isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}>
@@ -108,7 +125,6 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
             </div>
           </div>
 
-          {/* Card 2: Equivalent Percentage */}
           <div className={`p-5 rounded-2xl border ${
             isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}>
@@ -130,7 +146,6 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
             </div>
           </div>
 
-          {/* Card 3: Academic Status */}
           <div className={`p-5 rounded-2xl border ${
             isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}>
@@ -145,14 +160,11 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
               Based on standard university evaluation
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* Grid: Add Subject Form + Grades List */}
+      {/* Grid: Form + Grades Table */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Add Subject Form */}
         <div className={`p-6 rounded-3xl border ${
           isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
         }`}>
@@ -240,7 +252,6 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
           </form>
         </div>
 
-        {/* Grades Table */}
         <div className={`lg:col-span-2 p-6 rounded-3xl border ${
           isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
         }`}>
@@ -295,7 +306,6 @@ export const GPACalculator: React.FC<GPACalculatorProps> = ({
             </div>
           )}
         </div>
-
       </div>
 
     </div>

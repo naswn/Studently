@@ -52,9 +52,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     const updated: UserProfile = {
-      name: signInEmail ? signInEmail.split('@')[0] : 'Student User',
-      email: signInEmail || 'student@college.edu',
-      college: 'Sirajul Huda Campus',
+      name: signInEmail ? signInEmail.split('@')[0] : 'Your Name',
+      email: signInEmail || 'yourname@student.edu',
+      college: 'Your College / University',
       course: 'BCA (Computer Applications)',
       isLoggedIn: true,
     };
@@ -73,7 +73,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     const updated: UserProfile = {
       name: signUpName.trim(),
       email: signUpEmail.trim(),
-      college: signUpCollege.trim() || 'Sirajul Huda Campus',
+      college: signUpCollege.trim() || 'Your College / University',
       course: signUpCourse,
       isLoggedIn: true,
     };
@@ -87,7 +87,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   const handleLogout = () => {
     onUpdateProfile({
-      name: 'Guest Student',
+      name: 'Your Name',
       email: '',
       college: '',
       course: '',
@@ -216,7 +216,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <Mail className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
                     <input
                       type="email"
-                      placeholder="student@college.edu"
+                      placeholder="yourname@student.edu"
                       value={signInEmail}
                       onChange={(e) => setSignInEmail(e.target.value)}
                       required
@@ -266,7 +266,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <User className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
                     <input
                       type="text"
-                      placeholder="e.g. Nashwan PP"
+                      placeholder="Your Name"
                       value={signUpName}
                       onChange={(e) => setSignUpName(e.target.value)}
                       required
@@ -285,7 +285,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <Mail className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
                     <input
                       type="email"
-                      placeholder="nashwan@student.edu"
+                      placeholder="yourname@student.edu"
                       value={signUpEmail}
                       onChange={(e) => setSignUpEmail(e.target.value)}
                       required
@@ -302,7 +302,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Sirajul Huda Campus"
+                    placeholder="Your College / University"
                     value={signUpCollege}
                     onChange={(e) => setSignUpCollege(e.target.value)}
                     className={`w-full px-3 py-2 text-xs rounded-xl border outline-none font-medium ${

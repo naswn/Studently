@@ -17,13 +17,15 @@ interface ExamCountdownProps {
   onAddDeadline: (deadline: Omit<ExamDeadline, 'id'>) => void;
   onDeleteDeadline: (id: string) => void;
   theme: ThemeMode;
+  onBackToHome?: () => void;
 }
 
 export const ExamCountdown: React.FC<ExamCountdownProps> = ({
   deadlines,
   onAddDeadline,
   onDeleteDeadline,
-  theme
+  theme,
+  onBackToHome
 }) => {
   const isDark = theme === 'dark';
 
@@ -76,6 +78,22 @@ export const ExamCountdown: React.FC<ExamCountdownProps> = ({
   return (
     <div className="space-y-6">
       
+      {/* Universal Back to Dashboard Navigation Button */}
+      {onBackToHome && (
+        <div className="flex items-center justify-between">
+          <button
+            onClick={onBackToHome}
+            className={`flex items-center gap-2 px-4 py-2 rounded-2xl border font-bold text-xs transition-all ${
+              isDark 
+                ? 'bg-slate-900 border-slate-800 text-emerald-400 hover:bg-slate-800' 
+                : 'bg-white border-slate-200 text-emerald-600 hover:bg-slate-100 shadow-sm'
+            }`}
+          >
+            <span>← Back to Home Dashboard</span>
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className={`p-6 rounded-3xl border ${
         isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'

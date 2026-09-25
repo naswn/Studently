@@ -1,5 +1,7 @@
 export type ThemeMode = 'dark' | 'light';
 
+export type LanguageCode = 'en' | 'ml' | 'ar' | 'hi' | 'ur';
+
 export type BrandName = 
   | 'Studently'
   | 'StudentOS' 
@@ -106,15 +108,12 @@ export interface ChatMessage {
   timestamp: string;
 }
 
-// --- NEW TOOLS INTERFACES ---
-
-// 1. GPA Calculator
 export interface SubjectGrade {
   id: string;
   code: string;
   name: string;
   credits: number;
-  gradePoint: number; // e.g., 10 for O, 9 for A+, 8 for A, 7 for B+, 6 for B, 5 for C, 0 for F
+  gradePoint: number;
   gradeLetter: string;
 }
 
@@ -123,21 +122,19 @@ export interface SemesterGPA {
   subjects: SubjectGrade[];
 }
 
-// 2. Exam Countdown
 export interface ExamDeadline {
   id: string;
   title: string;
   subject: string;
-  dueDate: string; // ISO date string YYYY-MM-DDTHH:mm
+  dueDate: string;
   priority: 'High' | 'Medium' | 'Low';
   category: 'Exam' | 'Project Assignment' | 'Lab Viva' | 'Quiz';
 }
 
-// 3. Class Timetable & Attendance Log
 export interface TimetableSlot {
   id: string;
   day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday';
-  timeSlot: string; // e.g., "09:00 AM - 10:00 AM"
+  timeSlot: string;
   subject: string;
   room: string;
   teacher: string;
@@ -149,7 +146,6 @@ export interface SubjectAttendance {
   totalClasses: number;
 }
 
-// 4. Student Resume Builder
 export interface StudentResume {
   fullName: string;
   email: string;

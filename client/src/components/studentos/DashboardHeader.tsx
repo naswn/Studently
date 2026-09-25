@@ -20,9 +20,11 @@ import {
   Timer,
   Calendar,
   Plus,
-  Minus
+  Minus,
+  RotateCcw
 } from 'lucide-react';
-import { StudentStats, ThemeMode, UserProfile, BrandName } from '../../types/studentos';
+import { StudentStats, ThemeMode, UserProfile, BrandName, LanguageCode } from '../../types/studentos';
+import { TRANSLATIONS } from '../../utils/i18n';
 
 interface DashboardHeaderProps {
   stats: StudentStats;
@@ -31,6 +33,8 @@ interface DashboardHeaderProps {
   onSelectTab: (tabId: string) => void;
   userProfile: UserProfile;
   brandName: BrandName;
+  lang: LanguageCode;
+  onResetAllData: () => void;
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
@@ -39,9 +43,13 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   theme,
   onSelectTab,
   userProfile,
-  brandName
+  brandName,
+  lang,
+  onResetAllData
 }) => {
   const isDark = theme === 'dark';
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
   const [isEditingGoal, setIsEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState(stats.careerGoal);
 
@@ -62,7 +70,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const miniToolsList = [
     {
       id: 'gpa-calc',
-      title: 'GPA / CGPA Calculator',
+      title: t.gpaCalc,
       desc: 'Calculate semester grades, credit points & convert CGPA to percentage',
       icon: Calculator,
       gradient: 'from-emerald-500 to-cyan-600',
@@ -70,7 +78,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'exam-countdown',
-      title: 'Exam Countdown',
+      title: t.deadlines,
       desc: 'Real-time countdown timer for upcoming exams & project submission deadlines',
       icon: Timer,
       gradient: 'from-amber-500 to-rose-600',
@@ -78,7 +86,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'class-timetable',
-      title: 'Class Timetable',
+      title: t.timetable,
       desc: 'Weekly class schedule grid & subject-wise 75%+ attendance logger',
       icon: Calendar,
       gradient: 'from-cyan-500 to-blue-600',
@@ -86,7 +94,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'resume-builder',
-      title: 'Resume CV Builder',
+      title: t.resumeCv,
       desc: 'ATS-friendly student resume builder with live A4 preview & PDF download',
       icon: FileText,
       gradient: 'from-blue-500 to-indigo-600',
@@ -94,7 +102,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'course-finder',
-      title: 'Course Finder',
+      title: t.courseFinder,
       desc: 'Discover suitable degree programs & colleges by percentage & budget',
       icon: GraduationCap,
       gradient: 'from-indigo-500 to-purple-600',
@@ -102,7 +110,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'money-tracker',
-      title: 'Money Tracker',
+      title: t.moneyTracker,
       desc: 'Log expenses, track monthly budgets & hit your savings goals',
       icon: DollarSign,
       gradient: 'from-teal-500 to-emerald-600',
@@ -110,7 +118,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'study-assistant',
-      title: 'Study Assistant',
+      title: t.studyAssistant,
       desc: 'Summarize notes, generate instant quizzes & practice flashcards',
       icon: BookOpen,
       gradient: 'from-purple-500 to-pink-600',
@@ -118,7 +126,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'scholarship-finder',
-      title: 'Scholarship Finder',
+      title: t.scholarships,
       desc: 'Match government & private scholarships for your stream',
       icon: Award,
       gradient: 'from-amber-500 to-orange-600',
@@ -126,7 +134,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'doc-tools',
-      title: 'Document Tools',
+      title: t.docTools,
       desc: 'Passport photo creator, image to PDF & A4 format previewer',
       icon: FileText,
       gradient: 'from-cyan-500 to-teal-600',
@@ -134,7 +142,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'career-roadmap',
-      title: 'Career Roadmap',
+      title: t.careerRoadmap,
       desc: 'Interactive step-by-step career skill tree from BCA/CS to Developer',
       icon: Compass,
       gradient: 'from-violet-500 to-purple-600',
@@ -142,7 +150,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'ai-chat',
-      title: 'AI Chat Assistant',
+      title: t.aiAssistant,
       desc: 'Personalized AI assistant for homework, code & student queries',
       icon: Bot,
       gradient: 'from-rose-500 to-pink-600',
@@ -150,7 +158,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     },
     {
       id: 'caption-gen',
-      title: 'Caption Generator',
+      title: t.captionGen,
       desc: 'Create catchy social media captions for study & campus moments',
       icon: PenTool,
       gradient: 'from-fuchsia-500 to-rose-600',
@@ -173,21 +181,32 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                {brandName} — All-in-One Student Command Center
+              <div className="flex items-center gap-2 mb-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {brandName} — {t.allToolsTitle}
+                </div>
+
+                <button
+                  onClick={onResetAllData}
+                  className="px-3 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 flex items-center gap-1 transition-colors"
+                  title="Reset all user data to fresh state"
+                >
+                  <RotateCcw className="w-3 h-3" /> {t.resetAllData}
+                </button>
               </div>
+
               <h1 className={`text-2xl sm:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
                 {userProfile.isLoggedIn ? (
-                  <>Welcome back, <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">{userProfile.name}! 👋</span></>
+                  <>{t.welcomeBack} <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">{userProfile.name}! 👋</span></>
                 ) : (
-                  <>Your student life, <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">organized.</span></>
+                  <>{t.welcomeGuest}</>
                 )}
               </h1>
               <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Manage your GPA, study goals, timetable, resume, money, documents, and career roadmaps in one seamless ecosystem.
+                {t.tagline} {t.allToolsSubtitle}
               </p>
             </div>
 
@@ -196,7 +215,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
             }`}>
               <div className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 flex items-center justify-between gap-2">
-                <span>🎯 Target Career Goal</span>
+                <span>🎯 {t.careerGoal}</span>
                 {!isEditingGoal && (
                   <button 
                     onClick={() => setIsEditingGoal(true)}
@@ -246,7 +265,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   Target
                 </span>
               </div>
-              <div className="text-[11px] font-medium text-slate-400">Career Goal</div>
+              <div className="text-[11px] font-medium text-slate-400">{t.careerGoal}</div>
               <div className="text-sm font-bold text-slate-200 truncate mt-0.5">{stats.careerGoal}</div>
             </div>
 
@@ -260,7 +279,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   {skillsPercentage}%
                 </span>
               </div>
-              <div className="text-[11px] font-medium text-slate-400">Skills Completed</div>
+              <div className="text-[11px] font-medium text-slate-400">{t.skillsCompleted}</div>
               <div className="text-lg font-extrabold text-slate-100 mt-0.5">
                 {stats.skillsCompleted} <span className="text-xs font-normal text-slate-400">/ {stats.totalSkills}</span>
               </div>
@@ -282,7 +301,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   Saved
                 </span>
               </div>
-              <div className="text-[11px] font-medium text-slate-400">Savings</div>
+              <div className="text-[11px] font-medium text-slate-400">{t.savings}</div>
               <div className="text-lg font-extrabold text-slate-100 mt-0.5">
                 ₹{stats.savings.toLocaleString('en-IN')}
               </div>
@@ -298,7 +317,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   Eligible
                 </span>
               </div>
-              <div className="text-[11px] font-medium text-slate-400">Scholarships Found</div>
+              <div className="text-[11px] font-medium text-slate-400">{t.scholarshipsFound}</div>
               <div className="text-lg font-extrabold text-slate-100 mt-0.5">
                 {stats.scholarshipsFound} <span className="text-xs font-normal text-slate-400">Matches</span>
               </div>
@@ -329,7 +348,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               </div>
               <div className="text-[11px] font-medium text-slate-400">Study Streak</div>
               <div className="text-lg font-extrabold text-slate-100 mt-0.5">
-                {stats.studyStreak} <span className="text-xs font-normal text-slate-400">Days 🔥</span>
+                {stats.studyStreak} <span className="text-xs font-normal text-slate-400">{t.streak} 🔥</span>
               </div>
             </div>
 
@@ -343,10 +362,10 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              🛠️ {brandName} All-in-One Toolbox (12 Mini-Tools)
+              {t.allToolsTitle}
             </h2>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              Select any mini-tool below to start managing study, GPA, money, documents, or career opportunities.
+              {t.allToolsSubtitle}
             </p>
           </div>
         </div>

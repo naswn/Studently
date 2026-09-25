@@ -17,9 +17,12 @@ import {
   Calculator,
   Timer,
   Calendar,
-  LogIn
+  LogIn,
+  Globe,
+  BookMarked
 } from 'lucide-react';
-import { BrandName, ThemeMode, UserProfile } from '../../types/studentos';
+import { BrandName, ThemeMode, UserProfile, LanguageCode } from '../../types/studentos';
+import { TRANSLATIONS } from '../../utils/i18n';
 
 interface NavbarProps {
   theme: ThemeMode;
@@ -33,6 +36,9 @@ interface NavbarProps {
   onSelectTab: (tab: string) => void;
   userProfile: UserProfile;
   onOpenAuthModal: () => void;
+  lang: LanguageCode;
+  onSelectLanguage: (lang: LanguageCode) => void;
+  onOpenTutorial: () => void;
 }
 
 const BRAND_OPTIONS: BrandName[] = [
@@ -42,6 +48,14 @@ const BRAND_OPTIONS: BrandName[] = [
   'EduHub',
   'CampusKit',
   'StudyMate'
+];
+
+const LANG_OPTIONS: { code: LanguageCode; label: string; flag: string }[] = [
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'ml', label: 'മലയാളം', flag: '🇮🇳' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+  { code: 'hi', label: 'हिंदी', flag: '🇮🇳' },
+  { code: 'ur', label: 'اردو', flag: '🇵🇰' }
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -55,24 +69,31 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   onSelectTab,
   userProfile,
-  onOpenAuthModal
+  onOpenAuthModal,
+  lang,
+  onSelectLanguage,
+  onOpenTutorial
 }) => {
   const [showBrandMenu, setShowBrandMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const currentLangObj = LANG_OPTIONS.find(l => l.code === lang) || LANG_OPTIONS[0];
 
   const tabs = [
-    { id: 'dashboard', label: 'Home', icon: Home },
-    { id: 'gpa-calc', label: 'GPA Calc', icon: Calculator },
-    { id: 'exam-countdown', label: 'Deadlines', icon: Timer },
-    { id: 'class-timetable', label: 'Timetable', icon: Calendar },
-    { id: 'resume-builder', label: 'Resume CV', icon: FileText },
-    { id: 'course-finder', label: 'Course Finder', icon: GraduationCap },
-    { id: 'money-tracker', label: 'Money Tracker', icon: DollarSign },
-    { id: 'study-assistant', label: 'Study Assistant', icon: BookOpen },
-    { id: 'scholarship-finder', label: 'Scholarships', icon: Search },
-    { id: 'doc-tools', label: 'Doc Tools', icon: FileText },
-    { id: 'career-roadmap', label: 'Career Roadmap', icon: Compass },
-    { id: 'ai-chat', label: 'AI Assistant', icon: Bot },
-    { id: 'caption-gen', label: 'Caption Gen', icon: PenTool },
+    { id: 'dashboard', label: t.home, icon: Home },
+    { id: 'gpa-calc', label: t.gpaCalc, icon: Calculator },
+    { id: 'exam-countdown', label: t.deadlines, icon: Timer },
+    { id: 'class-timetable', label: t.timetable, icon: Calendar },
+    { id: 'resume-builder', label: t.resumeCv, icon: FileText },
+    { id: 'course-finder', label: t.courseFinder, icon: GraduationCap },
+    { id: 'money-tracker', label: t.moneyTracker, icon: DollarSign },
+    { id: 'study-assistant', label: t.studyAssistant, icon: BookOpen },
+    { id: 'scholarship-finder', label: t.scholarships, icon: Search },
+    { id: 'doc-tools', label: t.docTools, icon: FileText },
+    { id: 'career-roadmap', label: t.careerRoadmap, icon: Compass },
+    { id: 'ai-chat', label: t.aiAssistant, icon: Bot },
+    { id: 'caption-gen', label: t.captionGen, icon: PenTool },
   ];
 
   const isDark = theme === 'dark';
@@ -134,22 +155,71 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            <span className={`hidden sm:inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${
-              isDark ? 'bg-emerald-950/40 border-emerald-800/40 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
-            }`}>
-              v3.5 All-in-One
-            </span>
+            {/* App Guide Tutorial Button */}
+            <button
+              onClick={onOpenTutorial}
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
+                isDark 
+                  ? 'bg-slate-900 border-slate-800 text-purple-400 hover:border-purple-500/50' 
+                  : 'bg-purple-50 border-purple-200 text-purple-700'
+              }`}
+            >
+              <BookMarked className="w-3.5 h-3.5" />
+              <span>{t.guideTutorial}</span>
+            </button>
           </div>
 
-          {/* Quick Actions: Streak, Sign In / Profile, Theme Toggle */}
-          <div className="flex items-center gap-3">
+          {/* Quick Actions: Language, Streak, Sign In / Profile, Theme Toggle */}
+          <div className="flex items-center gap-2 sm:gap-3">
             
+            {/* Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowLangMenu(!showLangMenu)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
+                  isDark ? 'bg-slate-900 border-slate-800 text-slate-200 hover:border-cyan-500/50' : 'bg-slate-100 border-slate-200 text-slate-800'
+                }`}
+                title="Change Language"
+              >
+                <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{currentLangObj.flag} {currentLangObj.label}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {showLangMenu && (
+                <div className={`absolute right-0 mt-2 w-40 rounded-2xl shadow-2xl border p-2 z-50 animate-in fade-in zoom-in-95 ${
+                  isDark ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-800'
+                }`}>
+                  <div className="text-[10px] font-semibold text-slate-400 px-3 py-1 uppercase tracking-wider">
+                    {t.selectLanguage}
+                  </div>
+                  {LANG_OPTIONS.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        onSelectLanguage(l.code);
+                        setShowLangMenu(false);
+                      }}
+                      className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-medium transition-colors flex items-center justify-between ${
+                        lang === l.code 
+                          ? 'bg-cyan-500/10 text-cyan-400 font-bold' 
+                          : isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
+                      }`}
+                    >
+                      <span>{l.flag} {l.label}</span>
+                      {lang === l.code && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Dynamic Streak Counter */}
             <button
               onClick={onCheckInStreak}
               disabled={hasCheckedInToday}
               title={hasCheckedInToday ? 'Already checked in today!' : 'Click to log today\'s study streak!'}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl border text-sm font-extrabold transition-all duration-300 ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs sm:text-sm font-extrabold transition-all duration-300 ${
                 hasCheckedInToday
                   ? isDark 
                     ? 'bg-orange-950/40 border-orange-800/60 text-orange-400'
@@ -158,10 +228,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Flame className={`w-4 h-4 ${hasCheckedInToday ? 'text-orange-500' : 'text-yellow-200 animate-bounce'}`} />
-              <span>{studyStreak} Days Streak</span>
+              <span>{studyStreak} {t.streak}</span>
               {!hasCheckedInToday && (
-                <span className="text-[10px] uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded">
-                  +1 Check-in
+                <span className="hidden sm:inline text-[10px] uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded">
+                  {t.checkIn}
                 </span>
               )}
             </button>
@@ -182,12 +252,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div className="w-5 h-5 rounded-full bg-emerald-500 text-white text-[10px] font-extrabold flex items-center justify-center">
                     {userProfile.name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="hidden sm:inline max-w-[100px] truncate">{userProfile.name}</span>
+                  <span className="hidden sm:inline max-w-[90px] truncate">{userProfile.name}</span>
                 </>
               ) : (
                 <>
                   <LogIn className="w-3.5 h-3.5" />
-                  <span>Sign In / Sign Up</span>
+                  <span>{t.signInSignUp}</span>
                 </>
               )}
             </button>

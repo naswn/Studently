@@ -10,8 +10,8 @@ import { CareerRoadmap } from '../components/studentos/CareerRoadmap';
 import { AIChatAssistant } from '../components/studentos/AIChatAssistant';
 import { CaptionGenerator } from '../components/studentos/CaptionGenerator';
 import { AuthModal } from '../components/studentos/AuthModal';
+import { OnboardingTutorialModal } from '../components/studentos/OnboardingTutorialModal';
 
-// NEW 4 TOOLS
 import { GPACalculator } from '../components/studentos/GPACalculator';
 import { ExamCountdown } from '../components/studentos/ExamCountdown';
 import { ClassTimetable } from '../components/studentos/ClassTimetable';
@@ -28,12 +28,15 @@ import {
   ExamDeadline,
   TimetableSlot,
   SubjectAttendance,
-  StudentResume
+  StudentResume,
+  LanguageCode
 } from '../types/studentos';
 
 import {
   getStoredTheme,
   setStoredTheme,
+  getStoredLanguage,
+  setStoredLanguage,
   getStoredBrand,
   setStoredBrand,
   getStoredStats,
@@ -55,35 +58,44 @@ import {
   getStoredAttendance,
   saveStoredAttendance,
   getStoredResume,
-  saveStoredResume
+  saveStoredResume,
+  resetAllUserData
 } from '../utils/studentosStorage';
 
 export const StudentOSPage: React.FC = () => {
-  // Theme & Branding (Default: Studently)
+  // Theme & Branding & Language
   const [theme, setTheme] = useState<ThemeMode>(getStoredTheme);
+  const [lang, setLang] = useState<LanguageCode>(getStoredLanguage);
   const [brandName, setBrandName] = useState<BrandName>(getStoredBrand);
 
-  // Active Tab Navigation
+  // Navigation
   const [activeTab, setActiveTab] = useState<string>('dashboard');
 
-  // User Profile & Auth Modal
+  // User Profile & Modals
   const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
-  // Core Student State
+  // Auto prompt Auth modal if user is not logged in on initial open
+  useEffect(() => {
+    if (!userProfile.isLoggedIn) {
+      setIsAuthModalOpen(true);
+    }
+  }, []);
+
+  // Student State
   const [stats, setStats] = useState<StudentStats>(getStoredStats);
   const [expenses, setExpenses] = useState<ExpenseItem[]>(getStoredExpenses);
   const [savings, setSavings] = useState<SavingsGoal>(getStoredSavings);
   const [completedRoadmapNodes, setCompletedRoadmapNodes] = useState<string[]>(getCompletedRoadmapNodes);
 
-  // New Tools State
+  // Tools State
   const [grades, setGrades] = useState<SubjectGrade[]>(getStoredGrades);
   const [deadlines, setDeadlines] = useState<ExamDeadline[]>(getStoredDeadlines);
   const [timetable, setTimetable] = useState<TimetableSlot[]>(getStoredTimetable);
   const [attendance, setAttendance] = useState<SubjectAttendance[]>(getStoredAttendance);
   const [resume, setResume] = useState<StudentResume>(getStoredResume);
 
-  // Sync theme class to document body root
   useEffect(() => {
     setStoredTheme(theme);
     if (theme === 'dark') {
@@ -97,6 +109,11 @@ export const StudentOSPage: React.FC = () => {
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const handleSelectLanguage = (newLang: LanguageCode) => {
+    setLang(newLang);
+    setStoredLanguage(newLang);
+  };
+
   const handleSelectBrand = (newBrand: BrandName) => {
     setBrandName(newBrand);
     setStoredBrand(newBrand);
@@ -107,7 +124,11 @@ export const StudentOSPage: React.FC = () => {
     saveStoredUserProfile(newProfile);
   };
 
-  // Streak check-in logic
+  const handleResetAllData = () => {
+    resetAllUserData();
+    window.location.reload();
+  };
+
   const todayStr = new Date().toISOString().split('T')[0];
   const hasCheckedInToday = stats.lastStreakDate === todayStr;
 
@@ -163,9 +184,6 @@ export const StudentOSPage: React.FC = () => {
     handleUpdateStats({ skillsCompleted: updatedNodes.length });
   };
 
-  // NEW TOOLS HANDLERS
-
-  // GPA
   const handleAddGrade = (grade: Omit<SubjectGrade, 'id'>) => {
     const newGrade: SubjectGrade = { ...grade, id: Date.now().toString() };
     const updated = [...grades, newGrade];
@@ -179,7 +197,6 @@ export const StudentOSPage: React.FC = () => {
     saveStoredGrades(updated);
   };
 
-  // Deadlines
   const handleAddDeadline = (deadline: Omit<ExamDeadline, 'id'>) => {
     const newDL: ExamDeadline = { ...deadline, id: Date.now().toString() };
     const updated = [newDL, ...deadlines];
@@ -193,7 +210,6 @@ export const StudentOSPage: React.FC = () => {
     saveStoredDeadlines(updated);
   };
 
-  // Timetable & Attendance
   const handleAddTimetableSlot = (slot: Omit<TimetableSlot, 'id'>) => {
     const newSlot: TimetableSlot = { ...slot, id: Date.now().toString() };
     const updated = [...timetable, newSlot];
@@ -222,18 +238,21 @@ export const StudentOSPage: React.FC = () => {
     saveStoredAttendance(updated);
   };
 
-  // Resume
   const handleUpdateResume = (newResume: StudentResume) => {
     setResume(newResume);
     saveStoredResume(newResume);
   };
 
   const isDark = theme === 'dark';
+  const isRtl = lang === 'ar' || lang === 'ur';
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-300 ${
-      isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
-    }`}>
+    <div 
+      dir={isRtl ? 'rtl' : 'ltr'}
+      className={`min-h-screen font-sans transition-colors duration-300 ${
+        isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
+      }`}
+    >
       {/* Top Navbar */}
       <Navbar
         theme={theme}
@@ -247,6 +266,9 @@ export const StudentOSPage: React.FC = () => {
         onSelectTab={setActiveTab}
         userProfile={userProfile}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        lang={lang}
+        onSelectLanguage={handleSelectLanguage}
+        onOpenTutorial={() => setIsTutorialOpen(true)}
       />
 
       {/* Main Content Viewport */}
@@ -261,6 +283,8 @@ export const StudentOSPage: React.FC = () => {
             onSelectTab={setActiveTab}
             userProfile={userProfile}
             brandName={brandName}
+            lang={lang}
+            onResetAllData={handleResetAllData}
           />
         )}
 
@@ -270,6 +294,8 @@ export const StudentOSPage: React.FC = () => {
             onAddGrade={handleAddGrade}
             onDeleteGrade={handleDeleteGrade}
             theme={theme}
+            onBackToHome={() => setActiveTab('dashboard')}
+            lang={lang}
           />
         )}
 
@@ -355,6 +381,14 @@ export const StudentOSPage: React.FC = () => {
         theme={theme}
       />
 
+      {/* Onboarding Guide Tutorial Modal */}
+      <OnboardingTutorialModal
+        isOpen={isTutorialOpen}
+        onClose={() => setIsTutorialOpen(false)}
+        theme={theme}
+        lang={lang}
+      />
+
       {/* Footer */}
       <footer className={`py-6 border-t mt-12 text-center text-xs ${
         isDark ? 'border-slate-800 text-slate-500 bg-slate-950' : 'border-slate-200 text-slate-600 bg-white'
@@ -364,7 +398,7 @@ export const StudentOSPage: React.FC = () => {
             🚀 <strong>{brandName}</strong> — All-in-One Student Ecosystem
           </div>
           <div>
-            Built with React, TypeScript & Tailwind CSS • Made for Students
+            Built with React, TypeScript & Tailwind CSS • Multi-Language Support
           </div>
         </div>
       </footer>
