@@ -68,10 +68,10 @@ export const PublicStudentPortal: React.FC = () => {
           </div>
           <div>
             <h1 className="text-sm sm:text-base font-bold text-white leading-tight">
-              Sirajul Huda College of Science & Integrated Studies
+              Studently Campus Ecosystem
             </h1>
             <p className="text-[10px] font-semibold text-brand-400 uppercase tracking-wider">
-              Nadapuram • Jamiathul Hind Al Islamiya • Public Portal
+              Student & Faculty Portal
             </p>
           </div>
         </div>
@@ -185,7 +185,7 @@ export const PublicStudentPortal: React.FC = () => {
                 Official Student Search
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                Sirajul Huda College Attendance Lookup
+                Studently Attendance Lookup
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">
                 Enter your official Register Number, Roll Number, or Name to check subject performance and day-wise leave.

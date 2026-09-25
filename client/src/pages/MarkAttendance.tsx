@@ -105,7 +105,7 @@ export const MarkAttendance: React.FC = () => {
     const formattedPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
     const subjectName = selectedCS?.subject.name || 'Subject';
-    const text = `Sirajul Huda College Alert: Your ward ${student.name} (Reg No: ${student.registerNumber}) was marked ${status} for period ${period} (${subjectName}) on ${selectedDate}.`;
+    const text = `Studently Alert: Your ward ${student.name} (Reg No: ${student.registerNumber}) was marked ${status} for period ${period} (${subjectName}) on ${selectedDate}.`;
     return `https://wa.me/${formattedPhone}?text=${encodeURIComponent(text)}`;
   };
 

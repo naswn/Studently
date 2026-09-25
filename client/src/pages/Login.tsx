@@ -40,9 +40,9 @@ export const Login: React.FC = () => {
             🎓
           </div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
-            Sirajul Huda College of Science & Integrated Studies
+            Studently Campus Ecosystem
           </h1>
-          <p className="text-[11px] font-semibold text-slate-500 mt-1">Nadapuram • Jamiathul Hind Al Islamiya</p>
+          <p className="text-[11px] font-semibold text-slate-500 mt-1">Student & Faculty Portal</p>
           <span className="inline-block mt-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-[10px] font-extrabold uppercase tracking-wider border border-brand-200">
             Attendance Portal
           </span>

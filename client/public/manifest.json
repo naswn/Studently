@@ -1,7 +1,7 @@
 {
-  "name": "Sirajul Huda College Attendance",
-  "short_name": "Sirajul Huda",
-  "description": "Official Attendance & Syllabus Tracker - Sirajul Huda College of Science and Integrated Studies, Nadapuram",
+  "name": "Studently — Student AI Ecosystem",
+  "short_name": "Studently",
+  "description": "All-in-One Student Toolbox — GPA Calculator, Resume Builder, Timetable, Deadlines & AI Assistant",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",

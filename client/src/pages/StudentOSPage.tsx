@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { Navbar } from '../components/studentos/Navbar';
 import { DashboardHeader } from '../components/studentos/DashboardHeader';
 import { CourseFinder } from '../components/studentos/CourseFinder';
@@ -66,7 +67,7 @@ export const StudentOSPage: React.FC = () => {
   // Theme & Branding & Language
   const [theme, setTheme] = useState<ThemeMode>(getStoredTheme);
   const [lang, setLang] = useState<LanguageCode>(getStoredLanguage);
-  const [brandName, setBrandName] = useState<BrandName>(getStoredBrand);
+  const [brandName, setBrandName] = useState<BrandName>('Studently');
 
   // Navigation
   const [activeTab, setActiveTab] = useState<string>('dashboard');
@@ -274,7 +275,25 @@ export const StudentOSPage: React.FC = () => {
       {/* Main Content Viewport */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* Render Tab Components */}
+        {/* Back Button Bar (Visible on all tool pages) */}
+        {activeTab !== 'dashboard' && (
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800/30 animate-in fade-in">
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border shadow-sm ${
+                isDark 
+                  ? 'bg-slate-900 border-slate-800 text-emerald-400 hover:bg-slate-800 hover:border-emerald-500/50 hover:text-emerald-300' 
+                  : 'bg-white border-slate-200 text-emerald-700 hover:bg-slate-50 hover:border-emerald-500/50'
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>← Back to Home / All Tools</span>
+            </button>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider bg-slate-800/40 px-3 py-1 rounded-full border border-slate-700/30">
+              {activeTab.replace('-', ' ')}
+            </span>
+          </div>
+        )}
         {activeTab === 'dashboard' && (
           <DashboardHeader
             stats={stats}

@@ -103,7 +103,7 @@ export const MobileBottomNav: React.FC = () => {
                     🎓
                   </div>
                   <div>
-                    <h3 className="text-white font-extrabold text-xs">Sirajul Huda</h3>
+                    <h3 className="text-white font-extrabold text-xs">Studently</h3>
                     <p className="text-[10px] text-teal-400 font-semibold">Mobile Menu</p>
                   </div>
                 </div>

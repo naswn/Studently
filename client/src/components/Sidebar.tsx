@@ -27,13 +27,13 @@ import api from '../utils/api';
 
 export const Sidebar: React.FC = () => {
   const { user, isAdmin, logout } = useAuth();
-  const [collegeName, setCollegeName] = useState<string>('Sirajul Huda College');
+  const [collegeName, setCollegeName] = useState<string>('Studently Campus');
 
   useEffect(() => {
     api.get('/settings')
       .then((res) => {
         if (res.data?.collegeName) {
-          setCollegeName('Sirajul Huda College');
+          setCollegeName('Studently Campus');
         }
       })
       .catch(() => {});
@@ -79,7 +79,7 @@ export const Sidebar: React.FC = () => {
           🎓
         </div>
         <div className="overflow-hidden">
-          <h1 className="text-white font-extrabold text-sm leading-tight truncate">Sirajul Huda College</h1>
+          <h1 className="text-white font-extrabold text-sm leading-tight truncate">Studently</h1>
           <p className="text-[10px] text-brand-400 font-semibold uppercase tracking-wider mt-0.5">Attendance System</p>
         </div>
       </div>

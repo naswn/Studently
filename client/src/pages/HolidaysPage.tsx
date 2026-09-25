@@ -222,7 +222,7 @@ export const HolidaysPage: React.FC = () => {
                   {calendarGridData?.monthName} {calendarGridData?.year} Calendar
                 </h2>
                 <p className="text-xs text-brand-300 font-semibold">
-                  Sirajul Huda College • Academic Year {calendarGridData?.academicYearName}
+                  Studently Campus • Academic Year {calendarGridData?.academicYearName}
                 </p>
               </div>
             </div>

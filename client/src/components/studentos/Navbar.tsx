@@ -107,53 +107,24 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           
-          {/* Brand & Name Dropdown */}
+          {/* Fixed Brand Logo */}
           <div className="flex items-center gap-3">
-            <div className="relative group">
-              <button 
-                onClick={() => setShowBrandMenu(!showBrandMenu)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all duration-200 font-bold text-lg tracking-tight ${
-                  isDark 
-                    ? 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/50 text-white' 
-                    : 'bg-slate-50 border-slate-200 hover:border-emerald-500/50 text-slate-900'
-                }`}
-              >
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-                  <Sparkles className="w-4 h-4 animate-pulse" />
-                </div>
-                <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                  {brandName}
-                </span>
-                <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 transition-colors" />
-              </button>
-
-              {showBrandMenu && (
-                <div className={`absolute left-0 mt-2 w-48 rounded-2xl shadow-2xl border p-2 z-50 animate-in fade-in zoom-in-95 ${
-                  isDark ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-800'
-                }`}>
-                  <div className="text-xs font-semibold text-slate-400 px-3 py-1.5 uppercase tracking-wider">
-                    Select App Branding
-                  </div>
-                  {BRAND_OPTIONS.map((name) => (
-                    <button
-                      key={name}
-                      onClick={() => {
-                        onSelectBrand(name);
-                        setShowBrandMenu(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-between ${
-                        brandName === name 
-                          ? 'bg-emerald-500/10 text-emerald-400 font-semibold' 
-                          : isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
-                      }`}
-                    >
-                      {name}
-                      {brandName === name && <span className="w-2 h-2 rounded-full bg-emerald-400" />}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button 
+              onClick={() => onSelectTab('dashboard')}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all duration-200 font-bold text-lg tracking-tight ${
+                isDark 
+                  ? 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/50 text-white' 
+                  : 'bg-slate-50 border-slate-200 hover:border-emerald-500/50 text-slate-900'
+              }`}
+              title="Studently Home"
+            >
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                <Sparkles className="w-4 h-4 animate-pulse" />
+              </div>
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                Studently
+              </span>
+            </button>
 
             {/* App Guide Tutorial Button */}
             <button

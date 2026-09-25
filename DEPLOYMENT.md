@@ -1,6 +1,5 @@
 # 🚀 Production Deployment Guide
-## Sirajul Huda College of Science and Integrated Studies, Nadapuram
-### Affiliated to Jamiathul Hind Al Islamiya
+## Studently Campus — All-in-One Student Ecosystem
 
 This guide provides step-by-step instructions for deploying the **College Attendance Management System** to production.
 

@@ -168,7 +168,7 @@ export const MonthlyReport: React.FC = () => {
             {/* Header Title */}
             <div className="text-center pb-4 border-b border-slate-200">
               <h2 className="text-sm font-extrabold text-slate-600 uppercase tracking-widest">
-                SIRAJUL HUDA COLLEGE OF SCIENCE AND INTEGRATED STUDIES, NADAPURAM
+                STUDENTLY CAMPUS ECOSYSTEM
               </h2>
               <p className="text-[11px] font-bold text-slate-500">Affiliated to Jamiathul Hind Al Islamiya</p>
               <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight mt-2">

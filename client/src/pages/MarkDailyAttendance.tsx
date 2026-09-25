@@ -74,7 +74,7 @@ export const MarkDailyAttendance: React.FC = () => {
     const formattedPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
     const className = classes.find((c) => c.id === selectedClassId)?.name || 'Class';
-    const text = `Sirajul Huda College Alert: Your ward ${student.name} (Reg No: ${student.registerNumber}, Class ${className}) was marked ${status} for daily college attendance on ${selectedDate}.`;
+    const text = `Studently Alert: Your ward ${student.name} (Reg No: ${student.registerNumber}, Class ${className}) was marked ${status} for daily college attendance on ${selectedDate}.`;
     return `https://wa.me/${formattedPhone}?text=${encodeURIComponent(text)}`;
   };
 

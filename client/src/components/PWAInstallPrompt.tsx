@@ -59,7 +59,7 @@ export const PWAInstallPrompt: React.FC = () => {
             <Smartphone className="w-4 h-4" />
           </div>
           <div>
-            <span className="font-extrabold text-white">Sirajul Huda Mobile & PC App</span>
+            <span className="font-extrabold text-white">Studently Mobile & PC App</span>
             <p className="text-[11px] text-slate-300 hidden sm:block">
               Install onto your Phone or Laptop home screen for fast 1-tap offline access!
             </p>

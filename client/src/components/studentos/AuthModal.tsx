@@ -51,38 +51,52 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
+    const rawName = signInEmail ? signInEmail.split('@')[0] : 'Your Name';
+    const formattedName = rawName
+      .replace(/[._\-\d]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ') || 'Your Name';
+
     const updated: UserProfile = {
-      name: signInEmail ? signInEmail.split('@')[0] : 'Your Name',
+      name: formattedName,
       email: signInEmail || 'yourname@student.edu',
-      college: 'Your College / University',
+      college: 'Studently Campus',
       course: 'BCA (Computer Applications)',
       isLoggedIn: true,
     };
     onUpdateProfile(updated);
-    setNotification('Successfully signed in to Studently!');
+    setNotification(`Welcome back, ${formattedName}! Signed in to Studently.`);
     setTimeout(() => {
       setNotification(null);
       onClose();
-    }, 1200);
+    }, 800);
   };
 
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
     if (!signUpName.trim() || !signUpEmail.trim()) return;
 
+    const formattedName = signUpName
+      .trim()
+      .split(/\s+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
     const updated: UserProfile = {
-      name: signUpName.trim(),
+      name: formattedName,
       email: signUpEmail.trim(),
-      college: signUpCollege.trim() || 'Your College / University',
+      college: signUpCollege.trim() || 'Studently Campus',
       course: signUpCourse,
       isLoggedIn: true,
     };
     onUpdateProfile(updated);
-    setNotification('Welcome to Studently! Your account has been created.');
+    setNotification(`Welcome to Studently, ${formattedName}! Account created.`);
     setTimeout(() => {
       setNotification(null);
       onClose();
-    }, 1200);
+    }, 800);
   };
 
   const handleLogout = () => {
