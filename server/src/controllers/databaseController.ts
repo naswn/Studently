@@ -124,7 +124,7 @@ export const exportFullDatabaseBackup = async (_req: AuthRequest, res: Response)
       ]);
 
     const backupData = {
-      institution: 'Sirajul Huda College of Science and Integrated Studies, Nadapuram',
+      institution: 'Studently Campus Ecosystem',
       exportTimestamp: new Date().toISOString(),
       version: '1.0',
       database: {
@@ -143,7 +143,7 @@ export const exportFullDatabaseBackup = async (_req: AuthRequest, res: Response)
     };
 
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Disposition', `attachment; filename=Sirajul_Huda_Database_Backup_${new Date().toISOString().split('T')[0]}.json`);
+    res.setHeader('Content-Disposition', `attachment; filename=Studently_Database_Backup_${new Date().toISOString().split('T')[0]}.json`);
     res.send(JSON.stringify(backupData, null, 2));
   } catch (error: any) {
     res.status(500).json({ error: error.message || 'Failed to generate database backup' });

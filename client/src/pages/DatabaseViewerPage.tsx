@@ -51,7 +51,7 @@ export const DatabaseViewerPage: React.FC = () => {
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/json' }));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `Sirajul_Huda_Database_Backup_${new Date().toISOString().split('T')[0]}.json`);
+      link.setAttribute('download', `Studently_Database_Backup_${new Date().toISOString().split('T')[0]}.json`);
       document.body.appendChild(link);
       link.click();
       link.remove();

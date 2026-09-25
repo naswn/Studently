@@ -67,7 +67,7 @@ export const ImportExport: React.FC = () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'Sirajul_Huda_Student_Batch_Import_Template.csv');
+    link.setAttribute('download', 'Studently_Student_Batch_Import_Template.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

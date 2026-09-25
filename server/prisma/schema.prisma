@@ -173,7 +173,7 @@ model DailyAttendance {
 
 model SystemSettings {
   id                  String @id @default("1")
-  collegeName         String @default("Sirajul Huda College of Science and Integrated Studies, Nadapuram (Affiliated to Jamiathul Hind Al Islamiya)")
+  collegeName         String @default("Studently Campus Ecosystem")
   logoUrl             String @default("")
   attendanceThreshold Float  @default(75.0)
   timezone            String @default("Asia/Kolkata")

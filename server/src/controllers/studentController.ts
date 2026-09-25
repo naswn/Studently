@@ -179,7 +179,7 @@ export const getStudentCertificate = async (req: Request, res: Response) => {
     res.json({
       certificateNo: `SHC-NOC-${student.registerNumber}-${month.year}`,
       issueDate: new Date().toISOString().split('T')[0],
-      collegeName: 'Sirajul Huda College of Science and Integrated Studies, Nadapuram',
+      collegeName: 'Studently Campus Ecosystem',
       university: 'Jamiathul Hind Al Islamiya',
       student: {
         id: student.id,

@@ -88,7 +88,7 @@ export const exportMonthlyReportToExcel = async (req: AuthRequest, res: Response
     const grandTotalTaken = subjectSummaries.reduce((sum, s) => sum + s.takenClasses, 0);
 
     const excelRows: any[][] = [];
-    excelRows.push([`${settings?.collegeName || 'Sirajul Huda College'} - CLASS ${cls.name} ATTENDANCE REPORT (${month.monthName.toUpperCase()} ${month.year})`]);
+    excelRows.push([`${settings?.collegeName || 'Studently Campus'} - CLASS ${cls.name} ATTENDANCE REPORT (${month.monthName.toUpperCase()} ${month.year})`]);
     excelRows.push([]);
 
     const mainHeaders = ['SL NO', 'R.NO', 'NAME'];

@@ -99,7 +99,7 @@ export const saveAttendanceSession = async (req: Request, res: Response) => {
 
     const whatsappAlerts = absentStudents.map((st) => {
       const phone = st.parentPhone || st.phone || '';
-      const text = `Sirajul Huda College Alert: Your ward ${st.name} (Reg No: ${st.registerNumber}) was marked ${
+      const text = `Studently Alert: Your ward ${st.name} (Reg No: ${st.registerNumber}) was marked ${
         absentRecords.find((r: any) => r.studentId === st.id)?.status || 'ABSENT'
       } for period ${period || 1} (${cs.subject.name}) on ${dateStr}.`;
 

@@ -19,7 +19,7 @@ This guide provides step-by-step instructions for deploying the **College Attend
 
 ## ⚡ Option 1: Deploying on Cloud Server / VPS (Hostinger, DigitalOcean, AWS, Linode)
 
-This is the recommended setup for running the complete website 24/7 on a custom domain (e.g. `attendance.sirajulhudacollege.com`).
+This is the recommended setup for running the complete website 24/7 on a custom domain (e.g. `studently.app`).
 
 ### 1. Server Setup (Ubuntu / Debian Linux)
 Connect to your VPS server via SSH:
@@ -31,8 +31,8 @@ sudo apt install -y nodejs npm git nginx pm2
 ### 2. Clone & Setup Backend (`server/`)
 ```bash
 cd /var/www
-git clone <your-repository-url> attendance
-cd attendance/server
+git clone <your-repository-url> studently
+cd studently/server
 
 # Install dependencies
 npm install
@@ -46,13 +46,13 @@ npx ts-node src/seed.ts
 npm run build
 
 # Start backend using PM2 Process Manager
-pm2 start dist/index.js --name "attendance-backend"
+pm2 start dist/index.js --name "studently-backend"
 pm2 save
 ```
 
 ### 3. Setup Frontend (`client/`)
 ```bash
-cd /var/www/attendance/client
+cd /var/www/studently/client
 
 # Install dependencies
 npm install
@@ -62,11 +62,11 @@ npm run build
 ```
 
 ### 4. Configure Nginx Reverse Proxy
-Create `/etc/nginx/sites-available/attendance`:
+Create `/etc/nginx/sites-available/studently`:
 ```nginx
 server {
     listen 80;
-    server_name attendance.sirajulhudacollege.com;
+    server_name studently.app;
 
     # Frontend Static Files
     location / {

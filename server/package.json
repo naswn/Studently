@@ -1,7 +1,7 @@
 {
-  "name": "college-attendance-server",
+  "name": "studently-server",
   "version": "1.0.0",
-  "description": "Backend API for Production-Ready College Attendance Management System",
+  "description": "Backend API for Studently — All-in-One Student Ecosystem",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",

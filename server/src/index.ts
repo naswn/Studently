@@ -25,8 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 // Root Welcome Route (Fixes 'Cannot GET /' in browser)
 app.get('/', (_req, res) => {
   res.json({
-    institution: 'Sirajul Huda College of Science and Integrated Studies, Nadapuram',
-    system: 'College Attendance Management System API',
+    institution: 'Studently Campus Ecosystem',
+    system: 'Studently — All-in-One Student Ecosystem API',
     status: 'ONLINE & HEALTHY',
     timestamp: new Date().toISOString(),
     endpoints: {

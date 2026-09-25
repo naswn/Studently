@@ -16,7 +16,7 @@ export async function removePreseededTeachersAndSubjects() {
 }
 
 export async function cleanResetDatabase() {
-  console.log('🧹 Performing complete data wipe for Sirajul Huda College...');
+  console.log('🧹 Performing complete data wipe for Studently Campus...');
 
   // Delete all attendance data, logs, student roster, subjects, and teachers
   await prisma.auditLog.deleteMany();
@@ -36,7 +36,7 @@ export async function cleanResetDatabase() {
 }
 
 export async function ensureAdminSeeded() {
-  console.log('🧹 Checking production database seeding for Sirajul Huda College...');
+  console.log('🧹 Checking production database seeding for Studently Campus...');
 
   // 1. Create Initial System Settings with official college branding
   const existingSettings = await prisma.systemSettings.findFirst();
@@ -44,7 +44,7 @@ export async function ensureAdminSeeded() {
     await prisma.systemSettings.create({
       data: {
         id: '1',
-        collegeName: 'Sirajul Huda College of Science and Integrated Studies, Nadapuram (Affiliated to Jamiathul Hind Al Islamiya)',
+        collegeName: 'Studently Campus Ecosystem',
         logoUrl: '',
         attendanceThreshold: 75.0,
         timezone: 'Asia/Kolkata',
